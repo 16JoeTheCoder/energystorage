@@ -1,0 +1,12 @@
+:root {
+  --ink: #111827; --cream: #F3EFE6; --card: #FFFFFF; --line: #D5CFC0; --muted: #4B5563;
+  --signal: #FF5B1F; --ink-soft: #C9CDD6; --ink-line: #3A4254;
+  --gold: #F2C14E; --gold-edge: #C98F00; --store: #FF5B1F; --fluid: #E8590C; --amber: #E9A100;
+  --sky-top: #8FBBD6; --sky-bottom: #EBF2EC; --rock-a: #B8AA93; --rock-b: #7C6F5B;
+  --earth-a: #7E715D; --earth-b: #3C352B; --water-a: #5DA9BC; --water-b: #2A6174;
+  --slate-a: #667286; --slate-b: #333C4C; --cavity: #262B36;
+  --hd: 'Bricolage Grotesque', 'Arial Black', Arial, sans-serif;
+  --body: 'Instrument Sans', Arial, sans-serif;
+  --radius: 6px;
+  --base: 16px;
+}

@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wide view</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@800&family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3EFE6}
+.hd{font-family:'Bricolage Grotesque','Arial Black',Arial,sans-serif;font-weight:800;letter-spacing:-0.02em}
+.card{background:#FFFFFF;border:1px solid #D5CFC0;border-radius:6px;padding:14px 16px}
+.nb{box-sizing:border-box;width:84px;font:inherit;font-size:15px;text-align:right;border:1.5px solid #111827;border-radius:4px;padding:3px 8px;background:#FFFFFF;color:#111827}
+.st{font:inherit;font-size:18px;width:30px;height:30px;border:1.5px solid #111827;background:#FFFFFF;color:#111827;border-radius:4px;cursor:pointer;line-height:1;padding:0}
+.chip{font:inherit;font-size:14px;background:#FFFFFF;color:#111827;border:1.5px solid #111827;border-radius:999px;padding:4px 12px;cursor:pointer}
+.sel{background:#111827;color:#F3EFE6}
+.lk{font:inherit;font-size:13px;background:none;border:none;padding:0;color:#111827;text-decoration:underline;cursor:pointer}
+.seg{font:inherit;font-size:15px;background:#FFFFFF;color:#111827;border:none;padding:6px 16px;cursor:pointer}
+.tg{font-size:13px;border:1.5px solid #111827;padding:0 5px;margin-left:6px;white-space:nowrap;border-radius:3px}
+input[type=range]{accent-color:#FF5B1F;width:100%;margin:2px 0 0}
+</style>
+</helmet>
+<div style="box-sizing:border-box;max-width:1360px;margin:0 auto;padding:24px 32px 24px;background:#F3EFE6;color:#111827;font-family:'Instrument Sans',Arial,sans-serif;font-size:16px;line-height:1.5;display:flex;flex-direction:column;gap:16px">
+
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
+<div style="display:flex;align-items:center;gap:12px"><span style="width:26px;height:26px;border:3px solid #FF5B1F;border-radius:50%;box-sizing:border-box"></span><span class="hd" style="font-size:24px">Store the sun for the night</span><span style="font-size:14px">Simulator</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+<button class="chip" aria-label="Undo">Undo</button><button class="chip" aria-label="Redo">Redo</button><button class="chip">Share scenario</button>
+<span style="display:flex;border:1.5px solid #111827;border-radius:4px;overflow:hidden"><button class="seg sel">Simple</button><button class="seg">Advanced</button></span>
+</div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:28px;border-bottom:1.5px solid #111827">
+<span class="hd" style="font-size:17px;padding-bottom:8px">1 Problem</span>
+<span class="hd" style="font-size:17px;padding-bottom:8px;border-bottom:4px solid #FF5B1F;margin-bottom:-2px">2 Idea</span>
+<span class="hd" style="font-size:17px;padding-bottom:8px">3 Fluid</span>
+<span class="hd" style="font-size:17px;padding-bottom:8px">4 Plant</span>
+<span class="hd" style="font-size:17px;padding-bottom:8px">5 Limits</span>
+<span class="hd" style="font-size:17px;padding-bottom:8px">6 Other storage</span>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+<span style="font-size:14px;font-weight:600">Try a scenario</span>
+<button class="chip sel">Brief default</button><button class="chip">Cloudy week</button><button class="chip">Measured 59%</button><button class="chip">200 m fallback</button><button class="chip">Double array</button>
+<span style="flex:1"></span>
+<span style="display:flex;align-items:center;gap:8px;font-size:14px"><span style="width:34px;height:20px;border-radius:10px;background:#FF5B1F;position:relative;display:inline-block"><span style="position:absolute;right:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#FFFFFF"></span></span>Compare with brief</span>
+<button class="lk">Reset all</button>
+</div>
+
+<div style="background:#111827;color:#F3EFE6;border-radius:6px;display:flex;flex-wrap:wrap">
+<div style="flex:1 1 180px;padding:12px 18px;border-right:1px solid #3A4254"><div style="font-size:13px;color:#C9CDD6">Grid import / day</div><div class="hd" style="font-size:30px;line-height:1.15">0 MWh</div><div style="font-size:13px;color:#C9CDD6">same as brief</div></div>
+<div style="flex:1 1 180px;padding:12px 18px;border-right:1px solid #3A4254"><div style="font-size:13px;color:#C9CDD6">Delivered from store</div><div class="hd" style="font-size:30px;line-height:1.15">1,334 MWh</div><div style="font-size:13px;color:#C9CDD6">same as brief</div></div>
+<div style="flex:1 1 180px;padding:12px 18px;border-right:1px solid #3A4254"><div style="font-size:13px;color:#C9CDD6">Curtailed solar</div><div class="hd" style="font-size:30px;line-height:1.15">196 MWh</div><div style="font-size:13px;color:#C9CDD6">same as brief</div></div>
+<div style="flex:1 1 180px;padding:12px 18px;border-right:1px solid #3A4254"><div style="font-size:13px;color:#C9CDD6">Store right now</div><div class="hd" style="font-size:30px;line-height:1.15">869 MWh</div><div style="font-size:13px;color:#C9CDD6">55% of 1,570</div></div>
+<div style="flex:1 1 180px;padding:12px 18px"><div style="font-size:13px;color:#C9CDD6">Night covered</div><div class="hd" style="font-size:30px;line-height:1.15"><span style="background:#FF5B1F;color:#111827;padding:0 8px">100%</span></div><div style="font-size:13px;color:#C9CDD6">of 1,350 MWh</div></div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+
+<div style="flex:999 1 640px;min-width:0;display:flex;flex-direction:column;gap:14px">
+<div class="card" style="padding:0;overflow:hidden">
+<svg viewBox="0 0 1000 580" width="100%" role="img" aria-label="Cutaway of the site at noon. Floating solar panels on a lake at left, a hill with two fluid tanks on top, a shaft, a machine hall and four caverns, and the data campus at right." style="display:block" font-family="Instrument Sans, Arial, sans-serif" font-size="16" fill="#111827">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FBBD6"/><stop offset="1" stop-color="#EBF2EC"/></linearGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#FFE7A0" stop-opacity="0.95"/><stop offset="1" stop-color="#FFE7A0" stop-opacity="0"/></radialGradient>
+<linearGradient id="rock" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B8AA93"/><stop offset="1" stop-color="#7C6F5B"/></linearGradient>
+<linearGradient id="earth" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7E715D"/><stop offset="1" stop-color="#3C352B"/></linearGradient>
+<linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5DA9BC"/><stop offset="1" stop-color="#2A6174"/></linearGradient>
+<linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3A6BA5"/><stop offset="1" stop-color="#14305A"/></linearGradient>
+<linearGradient id="fluid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF8A4C"/><stop offset="1" stop-color="#D4450C"/></linearGradient>
+<linearGradient id="slate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#667286"/><stop offset="1" stop-color="#333C4C"/></linearGradient>
+<pattern id="strata" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><line x1="0" y1="0" x2="0" y2="14" stroke="#2E271F" stroke-opacity="0.25" stroke-width="1.5"/></pattern>
+<marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#FF5B1F"/></marker>
+</defs>
+
+<rect x="0" y="0" width="1000" height="400" fill="url(#sky)"/>
+<path d="M0 340 L110 285 L215 326 L350 250 L470 312 L590 268 L760 322 L880 286 L1000 332 V400 H0Z" fill="#B9CFCB" opacity="0.65"/>
+<path d="M60 330 Q500 -150 940 330" fill="none" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="2" stroke-dasharray="4 9"/>
+<circle cx="500" cy="95" r="85" fill="url(#glow)"/><circle cx="500" cy="95" r="26" fill="#FFC83D"/>
+<circle cx="500" cy="95" r="38" fill="none" stroke="#111827" stroke-width="1.5" stroke-dasharray="4 4"/>
+<g fill="#FFFFFF" opacity="0.85"><ellipse cx="170" cy="92" rx="52" ry="13"/><ellipse cx="202" cy="80" rx="30" ry="14"/><ellipse cx="800" cy="118" rx="46" ry="12"/><ellipse cx="826" cy="106" rx="26" ry="12"/></g>
+
+<rect x="0" y="398" width="1000" height="182" fill="url(#earth)"/>
+<rect x="0" y="398" width="1000" height="182" fill="url(#strata)"/>
+<path d="M0 448 Q250 436 500 452 T1000 446 M0 520 Q300 508 600 524 T1000 516" fill="none" stroke="#2E271F" stroke-opacity="0.3" stroke-width="2"/>
+<rect x="0" y="394" width="1000" height="8" fill="#789A68"/>
+
+<path d="M330 400 C380 382 424 290 462 206 Q470 190 490 190 H590 Q610 190 618 206 C656 290 700 382 750 400Z" fill="url(#rock)" stroke="#5E5344" stroke-width="1.5"/>
+<path d="M330 400 C380 382 424 290 462 206 Q470 190 490 190 H590 Q610 190 618 206 C656 290 700 382 750 400Z" fill="url(#strata)"/>
+
+<path d="M18 398 Q36 452 120 458 H236 Q308 452 332 398Z" fill="url(#water)"/>
+<path d="M36 410 q14 -5 28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0" fill="none" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="1.5"/>
+<g fill="url(#panel)" stroke="#0C1F3D" stroke-width="1.2" opacity="0.6"><path d="M62 388 l10 -20 h46 l-10 20z M116 388 l10 -20 h46 l-10 20z M170 388 l10 -20 h46 l-10 20z M224 388 l10 -20 h46 l-10 20z"/></g>
+<g fill="url(#panel)" stroke="#0C1F3D" stroke-width="1.5"><path d="M36 400 l12 -26 h52 l-12 26z M92 400 l12 -26 h52 l-12 26z M148 400 l12 -26 h52 l-12 26z M204 400 l12 -26 h52 l-12 26z M260 400 l12 -26 h52 l-12 26z"/></g>
+<g stroke="#9FC2E6" stroke-opacity="0.55" stroke-width="1"><path d="M54 387 H98 M60 381 H104 M110 387 H154 M116 381 H160 M166 387 H210 M172 381 H216 M222 387 H266 M228 381 H272 M278 387 H322 M284 381 H328"/></g>
+<g fill="#E8E4DA" stroke="#5B5B55"><ellipse cx="60" cy="404" rx="9" ry="3.5"/><ellipse cx="116" cy="404" rx="9" ry="3.5"/><ellipse cx="172" cy="404" rx="9" ry="3.5"/><ellipse cx="228" cy="404" rx="9" ry="3.5"/><ellipse cx="284" cy="404" rx="9" ry="3.5"/></g>
+
+<rect x="528" y="190" width="24" height="212" fill="#262B36"/><rect x="531" y="196" width="18" height="204" fill="url(#fluid)"/>
+<path d="M534 330 l6 -9 l6 9 M534 280 l6 -9 l6 9 M534 230 l6 -9 l6 9" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+<rect x="420" y="400" width="280" height="54" rx="4" fill="#262B36"/>
+<g fill="#A9B0BC" stroke="#4B5563" stroke-width="1.5"><rect x="434" y="412" width="22" height="30" rx="3"/><rect x="462" y="412" width="22" height="30" rx="3"/><rect x="490" y="412" width="22" height="30" rx="3"/><circle cx="574" cy="427" r="14"/><circle cx="610" cy="427" r="14"/><circle cx="646" cy="427" r="14"/><circle cx="682" cy="427" r="14"/></g>
+<g fill="#4B5563"><circle cx="574" cy="427" r="3"/><circle cx="610" cy="427" r="3"/><circle cx="646" cy="427" r="3"/><circle cx="682" cy="427" r="3"/></g>
+<g fill="#6B7280"><rect x="442" y="454" width="6" height="34"/><rect x="524" y="454" width="6" height="34"/><rect x="606" y="454" width="6" height="34"/><rect x="688" y="454" width="6" height="34"/></g>
+<g><rect x="410" y="488" width="70" height="58" rx="10" fill="#262B36"/><rect x="492" y="488" width="70" height="58" rx="10" fill="#262B36"/><rect x="574" y="488" width="70" height="58" rx="10" fill="#262B36"/><rect x="656" y="488" width="70" height="58" rx="10" fill="#262B36"/>
+<rect x="413" y="520" width="64" height="23" rx="7" fill="url(#fluid)"/><rect x="495" y="520" width="64" height="23" rx="7" fill="url(#fluid)"/><rect x="577" y="520" width="64" height="23" rx="7" fill="url(#fluid)"/><rect x="659" y="520" width="64" height="23" rx="7" fill="url(#fluid)"/></g>
+
+<g stroke="#8C867A" stroke-width="1.5"><rect x="452" y="148" width="72" height="42" rx="4" fill="#DAD5CA"/><rect x="556" y="148" width="72" height="42" rx="4" fill="#DAD5CA"/><path d="M452 148 L488 134 L524 148Z M556 148 L592 134 L628 148Z" fill="#C4BEB0"/></g>
+<rect x="524" y="168" width="32" height="10" fill="#8A93A0"/>
+<rect x="460" y="156" width="56" height="30" rx="2" fill="#262B36"/><rect x="564" y="156" width="56" height="30" rx="2" fill="#262B36"/>
+<rect x="462" y="168" width="52" height="16" rx="1" fill="url(#fluid)"/><rect x="566" y="168" width="52" height="16" rx="1" fill="url(#fluid)"/>
+
+<path d="M316 396 C340 414 380 426 420 424" fill="none" stroke="#FF5B1F" stroke-width="3.5" marker-end="url(#ar)"/>
+<path d="M300 440 C320 470 350 468 380 468 H790 V404" fill="none" stroke="#E9A100" stroke-width="3" stroke-dasharray="9 5" marker-end="url(#ar)"/>
+
+<rect x="800" y="330" width="150" height="70" fill="url(#slate)"/>
+<path d="M800 330 V314 L826 330 V314 L852 330 V314 L878 330 V314 L904 330 V314 L930 330 V314 L950 330Z" fill="#7B8699" stroke="#333C4C" stroke-width="1.2"/>
+<g fill="#FFE3A0" opacity="0.9"><path d="M812 344 h10 v6 h-10z M834 344 h10 v6 h-10z M856 344 h10 v6 h-10z M878 344 h10 v6 h-10z M900 344 h10 v6 h-10z M922 344 h10 v6 h-10z M812 360 h10 v6 h-10z M834 360 h10 v6 h-10z M856 360 h10 v6 h-10z M878 360 h10 v6 h-10z M900 360 h10 v6 h-10z M922 360 h10 v6 h-10z"/></g>
+<rect x="958" y="362" width="30" height="38" fill="#7B8699" stroke="#333C4C"/><circle cx="973" cy="378" r="9" fill="#333C4C"/>
+<rect x="770" y="378" width="20" height="22" fill="#9AA3B2" stroke="#4B5563"/>
+
+<g stroke="#111827" stroke-opacity="0.55" stroke-width="1.5" fill="none"><path d="M668 190 V400 M660 190 H676 M660 400 H676" stroke-dasharray="5 4"/></g>
+<g><rect x="654" y="278" width="68" height="26" rx="4" fill="#111827"/><text x="662" y="297" fill="#F3EFE6" font-weight="600">300 m</text></g>
+
+<g font-size="15"><g><rect x="290" y="108" width="150" height="26" rx="4" fill="#FFFFFF" stroke="#111827" stroke-opacity="0.4"/><text x="299" y="126">Top tanks · 55% full</text><path d="M440 128 L456 150" stroke="#111827" stroke-opacity="0.5" fill="none"/></g>
+<g><rect x="40" y="318" width="190" height="26" rx="4" fill="#FFFFFF" stroke="#111827" stroke-opacity="0.4"/><text x="49" y="336">Floating solar · 730 MWp</text></g>
+<g><rect x="720" y="404" width="108" height="26" rx="4" fill="#FFFFFF" stroke="#111827" stroke-opacity="0.4"/><text x="729" y="422">Machine hall</text></g>
+<g><rect x="738" y="506" width="124" height="26" rx="4" fill="#FFFFFF" stroke="#111827" stroke-opacity="0.4"/><text x="747" y="524">Lower caverns</text></g>
+<g><rect x="800" y="276" width="170" height="26" rx="4" fill="#FFFFFF" stroke="#111827" stroke-opacity="0.4"/><text x="809" y="294">Data campus · 100 MW</text></g>
+<g><rect x="330" y="372" width="104" height="26" rx="4" fill="#FFFFFF" stroke="#FF5B1F" stroke-width="1.5"/><text x="339" y="390">Pump 300 MW</text></g>
+<g><rect x="520" y="456" width="228" height="26" rx="4" fill="#FFFFFF" stroke="#E9A100" stroke-width="1.5"/><text x="529" y="474">Sun to campus 100 MW</text></g></g>
+
+<circle cx="668" cy="190" r="10" fill="#FFFFFF" stroke="#111827" stroke-width="2"/><circle cx="668" cy="190" r="4" fill="#FF5B1F"/>
+<g font-size="14"><rect x="684" y="164" width="108" height="24" rx="12" fill="#111827"/><text x="696" y="181" fill="#F3EFE6">Drag: height</text>
+<rect x="548" y="60" width="130" height="24" rx="12" fill="#111827"/><text x="560" y="77" fill="#F3EFE6">Drag: time</text>
+<rect x="258" y="344" width="112" height="24" rx="12" fill="#111827"/><text x="270" y="361" fill="#F3EFE6">Drag: array</text></g>
+<circle cx="328" cy="388" r="10" fill="#FFFFFF" stroke="#111827" stroke-width="2"/><circle cx="328" cy="388" r="4" fill="#FF5B1F"/>
+
+<rect x="16" y="16" width="272" height="58" rx="6" fill="#111827"/><text x="30" y="46" font-size="26" font-weight="800" fill="#F3EFE6" font-family="Bricolage Grotesque, Arial Black, Arial, sans-serif">12:00</text><text x="30" y="66" font-size="15" fill="#C9CDD6">Day · pumping · sun 445 MW</text>
+<rect x="744" y="16" width="240" height="34" rx="6" fill="#FFFFFF" fill-opacity="0.92"/><text x="756" y="38" font-size="15">Sunshine 100% · clear sky</text>
+</svg>
+</div>
+
+<div class="card" style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
+<div style="display:flex;gap:8px;align-items:center"><button class="chip sel" style="font-size:15px;padding:5px 18px">Pause</button><button class="chip">1×</button><button class="chip sel">4×</button><button class="chip">16×</button></div>
+<div style="display:flex;flex-wrap:wrap;gap:16px;font-size:13px"><span><span style="display:inline-block;width:18px;height:10px;background:#F2C14E;vertical-align:middle"></span> Solar MW</span><span><span style="display:inline-block;width:20px;border-top:3px solid #FF5B1F;vertical-align:middle"></span> Store MWh</span><span><span style="display:inline-block;width:20px;border-top:2px dashed #111827;vertical-align:middle"></span> Campus 100 MW</span><span><span style="display:inline-block;width:18px;height:10px;background:#111827;opacity:0.14;vertical-align:middle"></span> Night</span></div>
+</div>
+<svg viewBox="0 0 1000 150" width="100%" role="img" aria-label="Day chart with a movable playhead at 12:00. Solar peaks at 445 megawatts at noon; the store climbs from 18 megawatt-hours at 07:00 to 1,570 at 16:00 and drains overnight." style="display:block" font-family="Instrument Sans, Arial, sans-serif" font-size="13" fill="#111827">
+<rect x="50" y="14" width="230" height="106" fill="#111827" opacity="0.1"/><rect x="740" y="14" width="230" height="106" fill="#111827" opacity="0.1"/>
+<polygon points="280,120 318.3,102.2 356.7,78.7 395,56.2 433.3,37.5 471.7,25.3 510,21 548.3,25.3 586.7,37.5 625,56.9 663.3,79.3 701.7,102.4 740,120" fill="#F2C14E" fill-opacity="0.85" stroke="#C98F00" stroke-width="1.5"/>
+<line x1="50" y1="97.8" x2="970" y2="97.8" stroke="#111827" stroke-width="2" stroke-dasharray="6 5"/>
+<polyline fill="none" stroke="#FF5B1F" stroke-width="3.5" stroke-linejoin="round" points="50,70.4 88.3,77.8 126.7,85.2 165,92.6 203.3,100 241.7,107.4 280,114.8 318.3,118.8 356.7,116.5 395,108.6 433.3,95.9 471.7,80.4 510,64.6 548.3,48.9 586.7,33.7 625,22.2 663.3,20 701.7,20.4 740,26 778.3,33.4 816.7,40.8 855,48.2 893.3,55.6 931.7,63 970,70.1"/>
+<line x1="50" y1="120" x2="970" y2="120" stroke="#111827" stroke-width="1.5"/>
+<g><text x="50" y="140" text-anchor="middle">00:00</text><text x="280" y="140" text-anchor="middle">06:00</text><text x="510" y="140" text-anchor="middle">12:00</text><text x="740" y="140" text-anchor="middle">18:00</text><text x="970" y="140" text-anchor="middle">24:00</text><text x="44" y="24" text-anchor="end">450 MW</text><text x="976" y="16" text-anchor="start">1,570 MWh</text></g>
+<line x1="510" y1="8" x2="510" y2="120" stroke="#111827" stroke-width="2"/><circle cx="510" cy="8" r="7" fill="#FFFFFF" stroke="#111827" stroke-width="2"/>
+</svg>
+</div>
+</div>
+
+<div style="flex:1 1 340px;max-width:420px;min-width:0;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;border-top:3px solid #FF5B1F;padding-top:8px"><span class="hd" style="font-size:20px">Adjust</span><span style="font-size:13px"><span class="dot" style="width:9px;height:9px;border-radius:50%;background:#FF5B1F;display:inline-block"></span> = changed from brief</span></div>
+
+<div class="card" style="display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-weight:600">Sunshine</span><span style="display:flex;align-items:center;gap:6px"><button class="st" aria-label="Decrease sunshine">−</button><input class="nb" value="100" aria-label="Sunshine percent"><span style="font-size:14px">%</span><button class="st" aria-label="Increase sunshine">+</button></span></div>
+<input type="range" min="25" max="100" value="100" aria-label="Sunshine">
+<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center"><button class="chip sel">Clear</button><button class="chip">Hazy 70</button><button class="chip">Cloudy 40</button><button class="chip">Storm 25</button><span style="flex:1"></span><button class="lk">Brief: 100</button></div>
+</div>
+
+<div class="card" style="display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-weight:600">Solar array</span><span style="display:flex;align-items:center;gap:6px"><button class="st" aria-label="Decrease array">−</button><input class="nb" value="730" aria-label="Array MWp"><span style="font-size:14px">MWp</span><button class="st" aria-label="Increase array">+</button></span></div>
+<input type="range" min="200" max="2200" value="730" aria-label="Solar array size">
+<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center"><span style="font-size:13px">880 ha · about 1.04 M panels</span><span style="flex:1"></span><button class="lk">Brief: 730</button></div>
+</div>
+
+<div class="card" style="display:flex;flex-direction:column;gap:8px">
+<span style="font-weight:600">Storage type</span>
+<div style="display:flex;flex-wrap:wrap;gap:8px"><button class="chip sel">Hill battery</button><button class="chip">CO₂ dome</button><button class="chip">Heat + factory</button></div>
+<div style="font-size:13px">Switching opens that component's own view.</div>
+</div>
+
+<div style="border:1.5px dashed #111827;border-radius:6px;padding:12px 16px;font-size:14px"><b>Advanced adds 8 controls:</b> head, fluid density, efficiency case, cooling, campus load, PUE, lake rise, pump limits, each with its evidence tag.</div>
+</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:10px;font-size:14px;border-top:1.5px solid #111827;padding-top:10px"><span style="width:12px;height:12px;background:#FF5B1F;display:inline-block"></span><span>Wide view · numbers from the 730 MWp reference day (SIM)</span></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
