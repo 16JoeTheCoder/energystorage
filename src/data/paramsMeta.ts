@@ -63,13 +63,13 @@ export const META: Meta[] = [
   { id: 'effCase', label: 'Round-trip efficiency', kind: 'choice', choices: [{ value: 'best', label: 'Best 79.3%' }, { value: 'planning', label: 'Planning 70.8%' }, { value: 'measured', label: 'Measured 59%' }, { value: 'custom', label: 'Custom' }], tag: 'A', mode: 'simple', views: ['hill', 'limits', ...W], note: 'Only 59% has ever been measured, on a 500 kW demonstrator.' },
   { id: 'rtCustom', label: 'Custom round trip', unit: '%', kind: 'number', min: 0.3, max: 0.95, step: 0.005, scale: 100, digits: 1, tag: 'A', mode: 'advanced', views: ['hill', 'limits'], when: (p) => p.effCase === 'custom' },
   { id: 'jetCv', label: 'Jet velocity coefficient', kind: 'number', min: 0.9, max: 1, step: 0.01, digits: 2, tag: 'A', mode: 'advanced', views: ['hill'] },
-  { id: 'co2CapacityMWh', label: 'CO₂ store size', unit: 'MWh', kind: 'number', min: 200, max: 2000, step: 10, digits: 0, tag: 'A', mode: 'simple', views: ['other'], when: (p) => p.storage !== 'heat' },
-  { id: 'co2PowerMW', label: 'CO₂ turbine power', unit: 'MW', kind: 'number', min: 20, max: 300, step: 5, digits: 0, tag: 'A', mode: 'simple', views: ['other'], when: (p) => p.storage !== 'heat' },
-  { id: 'co2ChargeMW', label: 'CO₂ compressor power', unit: 'MW', kind: 'number', min: 20, max: 600, step: 10, digits: 0, tag: 'A', mode: 'advanced', views: ['other'], when: (p) => p.storage !== 'heat', note: 'Same as the hill pumps so the comparison is fair.' },
-  { id: 'co2RoundTrip', label: 'CO₂ round trip', unit: '%', kind: 'number', min: 0.5, max: 0.9, step: 0.01, scale: 100, digits: 0, tag: 'V', mode: 'advanced', views: ['other'], when: (p) => p.storage !== 'heat', note: 'Vendor claim. Cost claims disagree.' },
-  { id: 'heatDemandMW', label: 'Factory heat demand', unit: 'MW', kind: 'number', min: 1, max: 500, step: 1, digits: 0, tag: 'A', mode: 'simple', views: ['other'], when: (p) => p.storage === 'heat', nullable: true, note: 'No factory demand has been sourced. Enter one.' },
-  { id: 'heatHours', label: 'Hours without sun', unit: 'h', kind: 'number', min: 1, max: 24, step: 0.5, digits: 1, tag: 'A', mode: 'simple', views: ['other'], when: (p) => p.storage === 'heat' },
-  { id: 'heatUnitMWh', label: 'Heat unit size', unit: 'MWh', kind: 'number', min: 10, max: 1000, step: 10, digits: 0, tag: 'S', mode: 'advanced', views: ['other'], when: (p) => p.storage === 'heat' },
+  { id: 'co2CapacityMWh', label: 'CO₂ store size', unit: 'MWh', kind: 'number', min: 200, max: 2000, step: 10, digits: 0, tag: 'A', mode: 'simple', views: ['other'] },
+  { id: 'co2PowerMW', label: 'CO₂ turbine power', unit: 'MW', kind: 'number', min: 20, max: 300, step: 5, digits: 0, tag: 'A', mode: 'simple', views: ['other'] },
+  { id: 'co2ChargeMW', label: 'CO₂ compressor power', unit: 'MW', kind: 'number', min: 20, max: 600, step: 10, digits: 0, tag: 'A', mode: 'advanced', views: ['other'], note: 'Same as the hill pumps so the comparison is fair.' },
+  { id: 'co2RoundTrip', label: 'CO₂ round trip', unit: '%', kind: 'number', min: 0.5, max: 0.9, step: 0.01, scale: 100, digits: 0, tag: 'V', mode: 'advanced', views: ['other'], note: 'Vendor claim. Cost claims disagree.' },
+  { id: 'heatDemandMW', label: 'Factory heat demand', unit: 'MW', kind: 'number', min: 1, max: 500, step: 1, digits: 0, tag: 'A', mode: 'simple', views: ['other'], nullable: true, note: 'No factory demand has been sourced. Enter one.' },
+  { id: 'heatHours', label: 'Hours without sun', unit: 'h', kind: 'number', min: 1, max: 24, step: 0.5, digits: 1, tag: 'A', mode: 'simple', views: ['other'] },
+  { id: 'heatUnitMWh', label: 'Heat unit size', unit: 'MWh', kind: 'number', min: 10, max: 1000, step: 10, digits: 0, tag: 'S', mode: 'advanced', views: ['other'] },
 ];
 
 export const metaOf = (id: keyof Params) => META.find((m) => m.id === id)!;

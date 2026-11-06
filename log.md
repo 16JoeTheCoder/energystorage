@@ -17,3 +17,4 @@
 **Broken / known gaps**
 - "Measured 59%" is 3–5 MWh off the plan's numbers until the real CSV is used.
 - No saved-scenarios UI yet; no 7-day cloudy-week chart.
+- Fixed after QA: chapter 6 Heat tab now shows its own inputs; invalid typed numbers revert.

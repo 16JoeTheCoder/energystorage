@@ -67,14 +67,14 @@ function NumberField({ m, v, uid, head, reset, extra, set, begin, end }: {
   const text = v == null ? '' : (v * scale).toFixed(digits);
   const [draft, setDraft] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
-  useEffect(() => { setDraft(null); setErr(null); }, [v]);
+  useEffect(() => { setDraft(null); }, [v]);
   const clamp = (x: number) => Math.min(m.max!, Math.max(m.min!, x));
   const confirm = () => {
     if (draft == null) return;
     const s = draft.trim().replace(/,/g, '');
     if (s === '' && m.nullable) { set(null); setDraft(null); return; }
     const n = Number(s);
-    if (s === '' || !Number.isFinite(n)) { setErr(`Enter a number between ${show(m, m.min!)} and ${show(m, m.max!)}.`); return; }
+    if (s === '' || !Number.isFinite(n)) { setDraft(null); setErr(`Enter a number between ${show(m, m.min!)} and ${show(m, m.max!)}.`); return; }
     const raw = n / scale;
     const c = clamp(raw);
     set(c);

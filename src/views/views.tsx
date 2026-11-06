@@ -244,7 +244,7 @@ export function OtherView() {
   if (sub === 'heat') {
     const ev = (id: string) => EVIDENCE.find((e) => e.id === id)!;
     return (
-      <Layout name="Other storage · heat battery to a factory" side={<AdjustPanel view="other" />}
+      <Layout name="Other storage · heat battery to a factory" side={<AdjustPanel view="other" only={['heatDemandMW', 'heatHours', 'heatUnitMWh']} />}
         kpis={[
           { label: 'Heat needed', value: h.heatNeeded == null ? '—' : `${fmt(h.heatNeeded)} MWh`, sub: h.heatNeeded == null ? 'enter a demand' : `${fmt(p.heatDemandMW!)} MW × ${p.heatHours} h` },
           { label: 'Units needed', value: h.units == null ? '—' : fmt(h.units), sub: `of ${fmt(p.heatUnitMWh)} MWh` },
@@ -263,7 +263,7 @@ export function OtherView() {
     );
   }
   return (
-    <Layout name="Other storage · CO₂ dome" side={<AdjustPanel view="other" after={<div className="limit"><b>Risks.</b> A leak of this much CO₂ is an asphyxiation hazard in low ground. The dome is tall and wind-loaded. The largest plant running today is about {fmt(c.vsLargest, 2)}× smaller than this.</div>} />}
+    <Layout name="Other storage · CO₂ dome" side={<AdjustPanel view="other" only={['co2CapacityMWh', 'co2PowerMW', 'co2ChargeMW', 'co2RoundTrip']} after={<div className="limit"><b>Risks.</b> A leak of this much CO₂ is an asphyxiation hazard in low ground. The dome is tall and wind-loaded. The largest plant running today is about {fmt(c.vsLargest, 2)}× smaller than this.</div>} />}
       kpis={[
         { label: 'Lasts', value: `${c.hours.toFixed(1)} h`, sub: `at ${fmt(p.co2PowerMW)} MW` },
         { label: 'Energy in per night', value: `${fmt(c.energyInPerNight)} MWh`, sub: `${pct(p.co2RoundTrip)} round trip` },
