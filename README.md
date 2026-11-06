@@ -1,6 +1,6 @@
 # Store the sun for the night · Simulator
 
-Browser simulator for the STEAM project: floating solar → R-29X hill battery → 100 MW data campus, plus a CO₂ dome and heat-battery chapter. Plan: `reference/STEAM_Simulator_Coding_Plan.md`. Decisions: `decision.md`. Progress: `log.md`.
+Browser simulator for the STEAM project: floating solar → R-39 hill battery (hypothetical iron-oxide fluid, SG 3.0) → 100 MW data campus, plus a CO₂ dome and heat-battery chapter. Plan: `reference/STEAM_Simulator_Coding_Plan.md`. Decisions: `decision.md`. Progress: `log.md`.
 
 It models our design under stated assumptions. It is not a forecast.
 
@@ -49,3 +49,7 @@ npx wrangler deploy
 Uses `wrangler.jsonc` (serves `dist/`). The first run asks you to log in in the browser.
 
 **Backup:** copy `dist-single/index.html` to a USB stick. It works with Wi-Fi off.
+
+## Fluid: R-39 (replaced R-29X, Nov 2026)
+
+The fluid is now the hypothetical **R-39 family**: finely ground iron oxide in water with an R-19-style additive pack (R-39M mill scale for a pilot, R-39F hematite for plant scale, plus R-39B blend, R-39D two-size grind, R-39R with 2–5 vol% red mud). SG stays 3.0, so every energy and dispatch number is unchanged. The fluid model lives in `src/engine/fluid.ts` (solids loading, Krieger–Dougherty viscosity, cost, settling, tank load, mill scale supply) with tests in `src/engine/__tests__/fluid.test.ts`. Nothing about R-39 has been measured.

@@ -2,6 +2,7 @@ import type { Tag } from './paramsMeta';
 
 export interface Evidence { id: string; chapter: string; label: string; value: string; tag: Tag; source?: { title: string; url?: string }; status: 'ok' | 'unverified' | 'stale'; checked: string; note?: string; }
 const D = '2026-11-06';
+const handoff = { title: 'R-39 handoff, Parts B–D (handoff: URL in reference/r39-handoff.md (file not yet in repo))' };
 const brief = { title: 'Team brief and simulation (reference/steam_simulation_research_export.md)' };
 export const EVIDENCE: Evidence[] = [
   { id: 'load', chapter: '1 Problem', label: 'Data campus load', value: '100 MW, flat, 24 h', tag: 'A', status: 'ok', checked: D, source: brief },
@@ -11,7 +12,19 @@ export const EVIDENCE: Evidence[] = [
   { id: 'array', chapter: '2 Idea', label: 'Floating solar array', value: '730 MWp', tag: 'SIM', status: 'ok', checked: D, source: brief },
   { id: 'clearday', chapter: '2 Idea', label: 'Clear-day irradiance shape', value: '0.6407 × sin(π(h−6)/12)^1.3', tag: 'C*', status: 'ok', checked: D, note: 'Reconstructed from the plan; regenerate from the CSV with npm run clear-day.' },
   { id: 'head', chapter: '3 Fluid', label: 'Head', value: '300 m', tag: 'A', status: 'ok', checked: D, source: brief },
-  { id: 'r29x', chapter: '3 Fluid', label: 'R-29X fluid, SG 3.0', value: 'Hypothetical recipe', tag: 'A', status: 'ok', checked: D },
+  { id: 'r39', chapter: '3 Fluid', label: 'R-39 fluid family, SG 3.0', value: 'Ground iron oxide in water + R-19-style additive pack. Hypothetical', tag: 'A', status: 'ok', checked: D, source: handoff, note: 'Nothing about R-39 has been measured.' },
+  { id: 'r29xdrop', chapter: '3 Fluid', label: 'R-29X dropped, why', value: 'Ilmenite + Mn₃O₄ replaced by iron oxide', tag: 'A', status: 'ok', checked: D, source: handoff, note: 'Iron oxide is cheaper, plentiful and closer to known slurries. R-39 is NOT safer from jamming: loading 0.74 of the limit vs 0.76.' },
+  { id: 'r39load', chapter: '3 Fluid', label: 'R-39 solids loading', value: 'Mill scale 47.6 vol% / 82.5 wt%; hematite 50.0 / 83.3', tag: 'C', status: 'ok', checked: D, note: 'φ = (SG−1)/(solid SG−1); mill scale SG 5.2 (5.0–5.7), hematite 5.0.' },
+  { id: 'r39visc', chapter: '3 Fluid', label: 'Viscosity model', value: 'Krieger–Dougherty, 0.85 × (1−φ/φm)^(−3φm); φm 0.64 / 0.74', tag: 'E', status: 'unverified', checked: D, source: handoff, note: 'Textbook estimate; real slurries with additives differ. R-39M ≈ 11.6 mPa·s.' },
+  { id: 'r39settle', chapter: '3 Fluid', label: 'Settling', value: '≈ 20 cm/day at d50 10 µm, carrier 5× water', tag: 'E', status: 'unverified', checked: D, note: 'Stokes × (1−φ)^4.65. Carrier thickening is assumed.' },
+  { id: 'r39cost', chapter: '3 Fluid', label: 'Fluid cost', value: 'R-39M $95/t, R-39F $112/t, R-19 $168/t (mid case, delivered)', tag: 'A', status: 'ok', checked: D, source: handoff, note: 'Mill scale $78/t, hematite $97.5, magnetite $126, barite $171–216 [S]; grinding $15, freight $15, additives $18/m³ (R-19 $9.5) [A]. Fluid bill $159–183M (mill scale) vs $146M for lithium-ion: parity or worse, and the rest of the plant is not costed.' },
+  { id: 'lithref', chapter: '3 Fluid', label: 'Lithium-ion reference', value: '$108/kWh, $146M for 1,350 MWh', tag: 'S', status: 'unverified', checked: D, source: handoff },
+  { id: 'r39supply', chapter: '3 Fluid', label: 'Mill scale supply', value: '1.58 Mt needed = 2.8–8.3 years of Indonesian mill scale', tag: 'C', status: 'ok', checked: D, source: { title: 'worldsteel: Indonesia crude steel 19.0 Mt; scale 1–3% of steel', url: 'https://worldsteel.org' }, note: 'So mill scale is a pilot / diorama fluid; plant scale needs hematite.' },
+  { id: 'r39redmud', chapter: '3 Fluid', label: 'Red mud additive (R-39R)', value: '2–5 vol% helps packing; 15% rejected (≈ 21 mPa·s)', tag: 'E', status: 'unverified', checked: D, source: handoff, note: 'Red mud SG 3.0, $3/t + $40 freight [A].' },
+  { id: 'r19patent', chapter: '3 Fluid', label: 'R-19 recipe', value: 'Barite + additive pack, inferred', tag: 'A', status: 'unverified', checked: D, source: { title: 'RheEnergise pending patent and public statements', url: 'https://www.rheenergise.com' }, note: 'Inferred, not confirmed by RheEnergise.' },
+  { id: 'demag', chapter: '3 Fluid', label: 'Demagnetisation', value: 'Magnetic iron oxides clump; needs demagnetising', tag: 'A', status: 'unverified', checked: D, source: handoff, note: 'Standard step in dense-medium plants using magnetite.' },
+  { id: 'orepipe', chapter: '3 Fluid', label: 'Iron-ore slurry pipelines', value: 'Long-distance iron-ore slurry pumping is proven industry', tag: 'S', status: 'unverified', checked: D, source: { title: 'e.g. Samarco iron-ore pipelines, Brazil', url: 'https://www.samarco.com' }, note: 'Shows pumping is possible, not that R-39 works at 8.83 MPa.' },
+  { id: 'hardness', chapter: '3 Fluid', label: 'Grain hardness', value: 'Iron oxides (Mohs ≈ 5.5–6.5) are harder than barite (≈ 3–3.5)', tag: 'S', status: 'ok', checked: D, note: 'Turbine wear risk goes up vs R-19, not down.' },
   { id: 'r19', chapter: '3 Fluid', label: 'RheEnergise R-19, SG 2.5', value: '2.5× water density', tag: 'S', status: 'ok', checked: D, source: { title: 'RheEnergise', url: 'https://www.rheenergise.com' } },
   { id: 'cornwood', chapter: '3 Fluid', label: 'Cornwood demonstrator', value: '500 kW, 59% round trip measured', tag: 'S', status: 'ok', checked: D, source: { title: 'RheEnergise Cornwood demonstrator', url: 'https://www.rheenergise.com' } },
   { id: 'wear', chapter: '3 Fluid', label: 'Turbine wear ∝ head^1.5', value: 'Rule of thumb, reference 150 m', tag: 'A', status: 'unverified', checked: D },

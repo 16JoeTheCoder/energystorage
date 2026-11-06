@@ -11,6 +11,9 @@ import { BASE_KPI, simulateCached, useResult } from '../state/useResult';
 import { AdjustPanel } from '../ui/controls';
 import { delta, fmt, pct } from '../ui/format';
 import { Chip, Tag } from '../ui/kit';
+import type { Tag as TagT } from '../data/paramsMeta';
+import { LITHIUM, RECIPES, fluidFacts, fluidIn } from '../engine/fluid';
+import type { Recipe } from '../engine/types';
 import { Timeline } from '../ui/Timeline';
 import { Layout } from './Layout';
 
@@ -73,21 +76,50 @@ export function WideView() {
 }
 
 /* ---------- 3 Fluid ---------- */
-const FLUIDS = [
-  { sg: 1, name: 'Water', color: '#CFE3EE', tag: null },
-  { sg: 2.5, name: 'R-19, real', color: '#B8803A', tag: 'S' as const },
-  { sg: 3, name: 'R-29X, ours', color: '#E8590C', tag: 'A' as const },
+const FLUIDS: { recipe: Recipe; sg: number; name: string; sub: string; color: string; tag: 'S' | 'A' | null }[] = [
+  { recipe: 'water', sg: 1, name: 'Water', sub: 'reference', color: '#CFE3EE', tag: null },
+  { recipe: 'r19', sg: 2.5, name: 'R-19, real', sub: 'barite', color: '#B8803A', tag: 'S' },
+  { recipe: 'r39m', sg: 3, name: 'R-39M, pilot', sub: 'mill scale', color: '#E8590C', tag: 'A' },
+  { recipe: 'r39f', sg: 3, name: 'R-39F, plant', sub: 'hematite', color: '#A8431A', tag: 'A' },
 ];
+const usdM = (v: number) => `$${fmt(v / 1e6)}M`;
+function FluidFacts({ p, volume, ed }: { p: Params; volume: number; ed: number }) {
+  const x = fluidFacts(fluidIn(p, ed, volume));
+  const def = RECIPES[p.recipe];
+  const max = Math.max(x.bill, LITHIUM.billUSD) * 1.1;
+  const bar = (v: number) => (v / max) * 170;
+  if (x.phi === 0) return <div className="card"><b>Fluid facts · {def.name}.</b> No solids: nothing to settle, grind or buy.</div>;
+  const rows: [string, string, TagT][] = [
+    ['Solids', `${(x.phi * 100).toFixed(1)} vol% · ${(x.wt * 100).toFixed(1)} wt%`, 'C'],
+    ['Viscosity estimate', Number.isFinite(x.viscosity) ? `${x.viscosity.toFixed(1)} mPa·s (water 0.85)` : 'jammed: above packing limit', 'E'],
+    ['Relative loading φ/φm', `${x.relLoading.toFixed(2)} (jams at 1.00)`, 'E'],
+    [`Settling at d50 ${fmt(p.d50um)} µm`, `${x.settlingCmDay.toFixed(1)} cm/day`, 'E'],
+    ['Tank floor load', `${fmt(x.stabilityKPa)} kPa at ${fmt(p.tankHeightM)} m`, 'C'],
+    ['Fluid cost', `$${fmt(x.perTonne)}/t · $${fmt(x.perKWh)}/kWh delivered`, 'A'],
+  ];
+  if (x.years) rows.push(['Mill scale needed', `${(x.millScaleT / 1e6).toFixed(2)} Mt = ${x.years[0].toFixed(1)}–${x.years[1].toFixed(1)} years of Indonesia's output`, 'C']);
+  return (
+    <div className="card" role="region" aria-label="Fluid facts">
+      <b>Fluid facts · {def.name}</b> <span className="small muted">{def.note} Modelled, not measured.</span>
+      <dl className="facts">{rows.map(([k, v, t]) => <div key={k}><dt>{k} <Tag t={t} /></dt><dd>{v}</dd></div>)}</dl>
+      <svg viewBox="0 0 360 56" width="100%" style={{ maxWidth: 440 }} role="img" aria-label={`Fluid bill ${usdM(x.bill)} against lithium-ion ${usdM(LITHIUM.billUSD)}`}>
+        <text x="0" y="17" fontSize="12">Fluid only</text><rect x="120" y="6" width={bar(x.bill)} height="14" fill="#E8590C" /><text x={126 + bar(x.bill)} y="18" fontSize="12">{usdM(x.bill)}</text>
+        <text x="0" y="45" fontSize="12">Lithium-ion, whole</text><rect x="120" y="34" width={bar(LITHIUM.billUSD)} height="14" fill="#8A93A0" /><text x={126 + bar(LITHIUM.billUSD)} y="46" fontSize="12">{usdM(LITHIUM.billUSD)}</text>
+      </svg>
+      <p className="small" style={{ margin: '4px 0 0' }}>The fluid alone costs {x.billVsLithium >= 1 ? `${x.billVsLithium.toFixed(2)}×` : `${Math.round(x.billVsLithium * 100)}% of`} a whole 1,350 MWh lithium-ion battery (${LITHIUM.perKWh}/kWh). Tanks, tunnels, pumps and turbines come on top and are not modelled, so this is <b>not</b> a cheaper battery.{p.recipe === 'r39m' || p.recipe === 'r39d' || p.recipe === 'r39r' || p.recipe === 'r39b' ? ' Mill scale is a pilot fluid: at plant size it would use years of national output, so plant scale needs hematite.' : ''}</p>
+    </div>
+  );
+}
 export function HillView() {
   const { params: p, r } = useResult(); useCompare();
-  const set = useStore((s) => s.set);
+  const apply = useStore((s) => s.apply);
   const [explain, setExplain] = useState(false);
   const { ed } = efficiency(p);
   const h = hillPhysics(p, ed), hb = hillPhysics(BRIEF, efficiency(BRIEF).ed);
   const hillParams: Params = p.storage === 'co2' ? { ...p, storage: 'hill' } : p;
   const hr = p.storage === 'co2' ? simulateCached(hillParams) : r;
   return (
-    <Layout name="Fluid · hill battery" side={<AdjustPanel view="hill" after={<div className="limit"><b>Limitation.</b> R-29X is a hypothetical recipe. Fluid settling and pump wear at {h.pressure.toFixed(2)} MPa are not modelled yet.</div>} />}
+    <Layout name="Fluid · hill battery" side={<AdjustPanel view="hill" after={<div className="limit"><b>Limitation.</b> R-39 is a hypothetical recipe: nothing about it has been measured. Viscosity and settling are textbook estimates; pump wear at {h.pressure.toFixed(2)} MPa is not modelled. Its loading (0.74 of the jam limit) is no safer than the dropped R-29X (0.76).</div>} />}
       kpis={[
         { label: 'Energy per m³', value: `${h.energyPerM3.toFixed(2)} kWh`, sub: same(h.energyPerM3, hb.energyPerM3, 'kWh', 2) || 'calculated' },
         { label: 'Pressure at the foot', value: `${h.pressure.toFixed(2)} MPa`, sub: `about ${fmt(h.atm)} atm` },
@@ -99,23 +131,25 @@ export function HillView() {
       <div className="fluids">
         {FLUIDS.map((f) => {
           const vol = (h.capacity * 1000) / (h.energyPerM3 / p.sg * f.sg) ;
+          const on = p.recipe === f.recipe && Math.abs(p.sg - f.sg) < 1e-9;
           const ratio = 1 / f.sg;
           const H = 52 * ratio;
           return (
-            <button type="button" key={f.sg} className="card fluid" aria-pressed={Math.abs(p.sg - f.sg) < 1e-9} onClick={() => set('sg', f.sg)}>
+            <button type="button" key={f.recipe} className="card fluid" aria-pressed={on} onClick={() => apply({ sg: f.sg, recipe: f.recipe })}>
               <svg viewBox="0 0 60 60" width="56" height="56" aria-hidden="true">
                 <rect x="4" y="4" width="52" height="52" rx="3" fill="none" stroke="#111827" strokeWidth="1.5" strokeDasharray="3 3" />
                 <rect x="4" y={56 - H} width="52" height={H} rx="2" fill={f.color} stroke="#111827" strokeWidth="2" />
               </svg>
-              <span><span style={{ fontWeight: 600, display: 'block' }}>{f.name}</span><span style={{ fontSize: 14 }}>SG {f.sg.toFixed(1)} · {(vol / 1e6).toFixed(2)} M m³ {f.tag && <Tag t={f.tag} />}</span></span>
+              <span><span style={{ fontWeight: 600, display: 'block' }}>{f.name}</span><span style={{ fontSize: 14 }}>{f.sub} · SG {f.sg.toFixed(1)} · {(vol / 1e6).toFixed(2)} M m³ {f.tag && <Tag t={f.tag} />}</span></span>
             </button>
           );
         })}
       </div>
+      <FluidFacts p={p} volume={h.volume} ed={ed} />
       <div className="card scene"><HillScene r={hr} p={hillParams} jet={h.jet} onPelton={() => setExplain((v) => !v)} /></div>
       {explain && (
         <div className="card" role="region" aria-label="Pelton wheel explainer">
-          <b>Why the drop sets the wear.</b> The jet leaves the nozzle at about √(2gh) × {p.jetCv}: {h.jet.toFixed(1)} m/s at {fmt(p.headM)} m, whatever the fluid. Abrasion of the buckets grows very fast with jet speed (roughly with its cube), which works out near head^1.5 against a {fmt(p.wearRefHead)} m reference: {h.wear.toFixed(2)}× here. <b>This is a rule of thumb, not a measurement.</b> A denser fluid stores more per m³ and raises the pressure, but leaves the jet speed and this wear factor unchanged. <button type="button" className="lk" onClick={() => setExplain(false)}>Close</button>
+          <b>Why the drop sets the wear.</b> The jet leaves the nozzle at about √(2gh) × {p.jetCv}: {h.jet.toFixed(1)} m/s at {fmt(p.headM)} m, whatever the fluid. Abrasion of the buckets grows very fast with jet speed (roughly with its cube), which works out near head^1.5 against a {fmt(p.wearRefHead)} m reference: {h.wear.toFixed(2)}× here. <b>This is a rule of thumb, not a measurement.</b> A denser fluid stores more per m³ and raises the pressure, but leaves the jet speed and this wear factor unchanged. What the grains are made of matters too: iron oxides (R-39) are harder than barite (R-19), so the real wear risk is <b>higher</b> than this head-only factor, not lower. <button type="button" className="lk" onClick={() => setExplain(false)}>Close</button>
         </div>
       )}
       <Timeline r={hr} loadMW={p.loadMW} arrayMWp={p.arrayMWp} />
@@ -196,7 +230,7 @@ export function LimitsView() {
       <div className="grid2">
         <div className="card"><b>What has to be true</b>
           <ul style={{ margin: '8px 0 0', paddingLeft: 20 }}>
-            <li>The heavy fluid stays mixed and does not settle in the tanks.</li>
+            <li>The heavy fluid stays mixed: the model estimates R-39 grains settle about 20 cm a day if left still.</li>
             <li>Pumps and turbines survive {hillPhysics(p, 1).pressure.toFixed(1)} MPa of abrasive fluid.</li>
             <li>Efficiency climbs from the measured 59% to the planned 70.8%.</li>
             <li>A site exists with a {fmt(p.headM)} m drop next to a lake and a grid line.</li>

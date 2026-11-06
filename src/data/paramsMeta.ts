@@ -1,6 +1,6 @@
 import type { Params } from '../engine/types';
 
-export type Tag = 'S' | 'C' | 'C*' | 'SIM' | 'V' | 'A' | '?';
+export type Tag = 'S' | 'C' | 'C*' | 'SIM' | 'V' | 'A' | 'E' | '?';
 export type ViewId = 'problem' | 'wide' | 'hill' | 'solar' | 'limits' | 'other';
 
 export interface Meta {
@@ -29,7 +29,7 @@ export const BRIEF: Params = {
   panelWp: 700, mwpPerHa: 0.83,
   loadMW: 100, pue: 1.15, rackKW: 100, lakeRiseK: 6, lakeVolM3: 6.9e7,
   storage: 'hill',
-  headM: 300, sg: 3, sizing: 'fixedCapacity', capacityMWh: 1569.6, volumeM3: 640000,
+  headM: 300, sg: 3, recipe: 'r39m', millScaleSG: 5.2, redMudPct: 3, d50um: 10, carrierMult: 5, tankHeightM: 8, sizing: 'fixedCapacity', capacityMWh: 1569.6, volumeM3: 640000,
   pumpMaxMW: 300, turbineMaxMW: 100, turbineUnits: 4,
   effCase: 'planning', rtCustom: 0.708, jetCv: 0.97, wearRefHead: 150,
   co2CapacityMWh: 1350, co2PowerMW: 100, co2ChargeMW: 300, co2RoundTrip: 0.75,
@@ -55,6 +55,12 @@ export const META: Meta[] = [
   { id: 'lakeVolM3', label: 'Lake volume (illustrative)', unit: 'M m³', kind: 'number', min: 1e7, max: 5e8, step: 1e6, scale: 1e-6, digits: 0, tag: 'A', mode: 'advanced', views: ['problem'], note: 'Illustrative, not a real site.' },
   { id: 'headM', label: 'Head', unit: 'm', kind: 'number', min: 100, max: 500, step: 10, digits: 0, tag: 'A', mode: 'advanced', views: ['hill', ...W] },
   { id: 'sg', label: 'Fluid density, SG', kind: 'number', min: 1, max: 3.5, step: 0.1, digits: 1, tag: 'A', mode: 'advanced', views: ['hill', ...W] },
+  { id: 'recipe', label: 'Fluid recipe', kind: 'choice', choices: [{ value: 'water', label: 'Water' }, { value: 'r19', label: 'R-19' }, { value: 'r39m', label: 'R-39M' }, { value: 'r39f', label: 'R-39F' }, { value: 'r39b', label: 'R-39B' }, { value: 'r39d', label: 'R-39D' }, { value: 'r39r', label: 'R-39R' }], tag: 'A', mode: 'advanced', views: ['hill'], note: 'Sets what the solids are. Density is set separately by SG. All R-39 recipes are hypothetical.' },
+  { id: 'millScaleSG', label: 'Mill scale density', kind: 'number', min: 5, max: 5.7, step: 0.1, digits: 1, tag: 'A', mode: 'advanced', views: ['hill'], note: 'Varies with how much of the scale is wüstite, magnetite or hematite.' },
+  { id: 'redMudPct', label: 'Red mud share', unit: 'vol%', kind: 'number', min: 1, max: 15, step: 1, digits: 0, tag: 'A', mode: 'advanced', views: ['hill'], when: (p) => p.recipe === 'r39r', note: '2–5 vol% is the R-39R window; 15% was tested on paper and rejected.' },
+  { id: 'd50um', label: 'Grind size d50', unit: 'µm', kind: 'number', min: 2, max: 50, step: 1, digits: 0, tag: 'A', mode: 'advanced', views: ['hill'] },
+  { id: 'carrierMult', label: 'Carrier viscosity', unit: '× water', kind: 'number', min: 1, max: 50, step: 1, digits: 0, tag: 'E', mode: 'advanced', views: ['hill'], note: 'Thickened water from the additive pack. Estimate.' },
+  { id: 'tankHeightM', label: 'Tank fluid height', unit: 'm', kind: 'number', min: 2, max: 30, step: 1, digits: 0, tag: 'A', mode: 'advanced', views: ['hill'] },
   { id: 'sizing', label: 'When head or fluid changes', kind: 'choice', choices: [{ value: 'fixedCapacity', label: 'Keep capacity' }, { value: 'fixedVolume', label: 'Keep volume' }], tag: 'A', mode: 'advanced', views: ['hill'] },
   { id: 'capacityMWh', label: 'Store capacity', unit: 'MWh', kind: 'number', min: 200, max: 4000, step: 0.1, digits: 0, tag: 'SIM', mode: 'advanced', views: ['hill'], when: (p) => p.sizing === 'fixedCapacity' },
   { id: 'volumeM3', label: 'Fluid volume', unit: 'k m³', kind: 'number', min: 1e5, max: 3e6, step: 1e4, scale: 1e-3, digits: 0, tag: 'C', mode: 'advanced', views: ['hill'], when: (p) => p.sizing === 'fixedVolume' },
