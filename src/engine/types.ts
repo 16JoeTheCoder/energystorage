@@ -5,13 +5,15 @@ export type Sizing = 'fixedCapacity' | 'fixedVolume';
 export type Block = 'brick' | 'graphite' | 'ceramic';
 
 /** Flat on purpose: every field is one row in paramsMeta, one URL key, one undo unit. */
+export type Recipe = 'water' | 'r19' | 'r39m' | 'r39f' | 'r39b' | 'r39d' | 'r39r';
+
 export interface Params {
   sunshine: number; arrayMWp: number; cooling: Cooling; tempCoeff: number; cloudCooling: boolean;
   pumpLand: number; pumpFloat: number; pumpFilm: number; pumpSpray: number;
   panelWp: number; mwpPerHa: number;
   loadMW: number; pue: number; rackKW: number; lakeRiseK: number; lakeVolM3: number;
   storage: Storage;
-  headM: number; sg: number; sizing: Sizing; capacityMWh: number; volumeM3: number;
+  headM: number; sg: number; recipe: Recipe; millScaleSG: number; redMudPct: number; d50um: number; carrierMult: number; tankHeightM: number; sizing: Sizing; capacityMWh: number; volumeM3: number;
   pumpMaxMW: number; turbineMaxMW: number; turbineUnits: number;
   effCase: EffCase; rtCustom: number; jetCv: number; wearRefHead: number;
   co2CapacityMWh: number; co2PowerMW: number; co2ChargeMW: number; co2RoundTrip: number;

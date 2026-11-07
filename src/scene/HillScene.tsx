@@ -1,3 +1,4 @@
+import { RECIPES } from '../engine/fluid';
 import type { DayResult, Params } from '../engine/types';
 import { useStore } from '../state/store';
 import { fmt, hhmm } from '../ui/format';
@@ -27,7 +28,8 @@ export function HillScene({ r, p, jet, onPelton }: { r: DayResult; p: Params; je
   const status = st.charge > 0.05 ? `Charging · pumps ${fmt(st.charge)} MW` : st.discharge > 0.05 ? `Turbines ${fmt(st.discharge)} MW` : st.frac > 0.99 ? `Store full${st.curtailed > 0.05 ? ` · curtailing ${fmt(st.curtailed)} MW` : ''}` : 'Idle';
   const units = Math.max(1, Math.round(p.turbineMaxMW / 25));
   const shown = Math.min(units, 6);
-  const fluidName = p.sg >= 2.95 && p.sg <= 3.05 ? 'R-29X' : p.sg >= 2.45 && p.sg <= 2.55 ? 'R-19' : p.sg <= 1.05 ? 'water' : `SG ${p.sg.toFixed(1)} fluid`;
+  const rec = RECIPES[p.recipe];
+  const fluidName = Math.abs(p.sg - rec.sgNominal) <= 0.05 ? rec.name : `SG ${p.sg.toFixed(1)}`;
   return (
     <svg viewBox="0 0 1000 640" role="img"
       aria-label={`Cutaway of the hill battery at ${hhmm(hour)}. Tanks ${Math.round(st.frac * 100)}% full, ${fmt(r.capacity)} MWh capacity, ${fmt(p.headM)} metre shaft, Pelton jet ${jet.toFixed(1)} metres per second.`}

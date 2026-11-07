@@ -98,9 +98,9 @@ export function Footer({ name }: { name: string }) {
     <footer className="foot">
       <span className="sq" aria-hidden="true" />
       <span>{name}</span><span aria-hidden="true">·</span>
-      <span>A model of our design under stated assumptions, not a forecast. R-29X is hypothetical; the only measured round trip is 59% at 500 kW.</span>
+      <span>A model of our design under stated assumptions, not a forecast. Everything about the R-39 fluid is hypothetical and modelled, nothing measured; the only measured round trip is 59% at 500 kW (R-19, Cornwood).</span>
       <span className="spacer" />
-      <span className="small muted">Tags: SIM brief · A assumption · C calculated · S sourced · V vendor claim · ? unverified</span>
+      <span className="small muted">Tags: SIM brief · A assumption · E estimate · C calculated · S sourced · V vendor claim · ? unverified</span>
       <span className="small">builtbyjosef</span>
     </footer>
   );

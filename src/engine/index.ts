@@ -8,3 +8,4 @@ export * from './storeCo2';
 export * from './storeHeat';
 export * from './campus';
 export * from './derive';
+export * from './fluid';

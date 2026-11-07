@@ -135,6 +135,6 @@ function useExtras(): Partial<Record<keyof Params, React.ReactNode>> {
     sunshine: <span className="row" style={{ gap: 6 }}>{SUN_CHIPS.map((c) => <Chip key={c.v} on={p.sunshine === c.v} onClick={() => set('sunshine', c.v)}>{c.label}</Chip>)}</span>,
     arrayMWp: <span className="small">{fmt(p.arrayMWp / p.mwpPerHa)} ha · about {fmt(p.arrayMWp / (p.panelWp / 1e6) / 1e6, 2)} M panels</span>,
     headM: <span className="row" style={{ gap: 6 }}><Chip on={p.headM === 200} onClick={() => set('headM', 200)}>200 fallback</Chip><Chip on={p.headM === 300} onClick={() => set('headM', 300)}>300</Chip></span>,
-    sg: <span className="small">Water 1.0 · R-19 2.5 · R-29X 3.0</span>,
+    sg: <span className="small">Water 1.0 · R-19 2.5 (real) · R-39 family 3.0 (hypothetical)</span>,
   };
 }

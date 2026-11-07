@@ -1,3 +1,5 @@
+> **Fluid superseded by R-39 (6 Nov 2026).** Wherever this plan says R-29X, read R-39: ground iron oxide in water, SG 3.0, hypothetical. SG and every fixture are unchanged. Fluid model: `src/engine/fluid.ts`; reasons in `decision.md` (session 2).
+
 # STEAM simulator: full coding plan
 
 **Project:** "Store the sun for the night" (R-29X hill battery + floating solar + 100 MW data campus). Team: Josef, Oswald, Aaron, Richard.
